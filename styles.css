@@ -1,0 +1,253 @@
+:root {
+  --bg-color: #d3d3d3;
+  --text-color: #000;
+  --cell-bg: #bbb;
+  --cell-revealed: #fff;
+  --mine-bg: #f00;
+  --action-color: DarkBlue;
+  --action-hover: DodgerBlue;
+  --action-hover-border: CornflowerBlue;
+  --slider-bg: lightslategray;
+}
+
+.dark-mode {
+  --bg-color: #222;
+  --text-color: #fff;
+  --cell-bg: #444;
+  --cell-revealed: #666;
+  --mine-bg: #900;
+  --action-color: SteelBlue;
+  --action-hover: DeepSkyBlue;
+  --action-hover-border: SkyBlue;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.1s, color 0.1s;
+}
+#game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 90vw;
+  max-width: 400px;
+}
+#game {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  gap: 2px;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+}
+.cell {
+  background-color: var(--cell-bg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  transition: background-color 0.3s;
+}
+.cell::after {
+  content: "";
+  display: block;
+  padding-bottom: 100%;
+}
+.cell > * {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.revealed {
+  background-color: var(--cell-revealed);
+}
+.mine {
+  background-color: var(--mine-bg);
+}
+.flagged i,
+.mine i {
+  font-size: 24px;
+}
+.flagged i {
+  color: var(--text-color);
+}
+.mine i {
+  color: var(--text-color);
+}
+#message-container {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+}
+#message {
+  font-size: 18px;
+  font-weight: bold;
+  margin-right: 10px;
+}
+#new-game-btn {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--action-color);
+  font-size: 18px;
+  cursor: pointer;
+  display: none;
+  text-decoration: underline;
+  text-decoration-color: var(--action-color);
+  transition: text-decoration-color 0.2s, color 0.4s;
+}
+#new-game-btn:hover {
+  color: var(--action-hover);
+  text-decoration-color: var(--action-hover-border);
+}
+#controls {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 10px;
+}
+#timer {
+  font-size: 18px;
+  font-weight: bold;
+}
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #aaa;
+  transition: 0.4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+  z-index: 2;
+}
+
+.slider .bxs-sun,
+.slider .bxs-moon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  transition: 0.4s;
+  z-index: 3;
+}
+
+.slider .bxs-sun {
+  left: 7px;
+  color: var(--slider-bg);
+}
+
+.slider .bxs-moon {
+  right: 7px;
+  color: var(--slider-bg);
+  opacity: 0;
+}
+
+input:checked + .slider {
+  background-color: var(--slider-bg);
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+input:checked + .slider .bxs-sun {
+  opacity: 0;
+}
+
+input:checked + .slider .bxs-moon {
+  opacity: 1;
+}
+
+#info-container {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+#info-button {
+  background: none;
+  border: none;
+  color: var(--text-color);
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 500px;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: var(--text-color);
+  text-decoration: none;
+  cursor: pointer;
+}

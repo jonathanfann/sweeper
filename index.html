@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minesweeper</title>
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link href="/styles.css?v={{VERSION}}" rel="stylesheet">
+</head>
+<body>
+    <div id="game-container">
+        <div id="controls">
+            <div id="timer">Time: 0s</div>
+            <label class="switch">
+                <input type="checkbox" id="dark-mode-toggle">
+                <span class="slider">
+                    <i class='bx bxs-sun'></i>
+                    <i class='bx bxs-moon'></i>
+                </span>
+            </label>
+        </div>
+        <div id="game"></div>
+        <div id="message-container">
+            <div id="message"></div>
+            <button id="new-game-btn">New Game</button>
+        </div>
+    </div>
+    <div id="info-container">
+        <button id="info-button" aria-label="Game Instructions">
+            <i class='bx bx-info-circle'></i>
+        </button>
+    </div>
+    
+    <div id="instructions-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>How to Play</h2>
+            <ul>
+                <li>Win by clearing the board without detonating any mines</li>
+                <li>Numbers show how many mines are adjacent to that cell</li>
+                <li><span id="device-specific-instructions"></span> on a cell to mark a suspected mine &amp; again to unmark</li>
+            </ul>
+        </div>
+    </div>
+    <script src="/game.js?v={{VERSION}}"></script>
+</body>
+</html>
