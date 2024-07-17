@@ -235,6 +235,9 @@ function isMobileDevice() {
 
 function showInstructions() {
     modal.style.display = "block";
+    // Trigger reflow
+    modal.offsetHeight;
+    modal.classList.add('show');
     if (isMobileDevice()) {
         deviceInstructions.textContent = "Long press ";
     } else {
@@ -243,7 +246,10 @@ function showInstructions() {
 }
 
 function closeInstructions() {
-    modal.style.display = "none";
+    modal.classList.remove('show');
+    setTimeout(() => {
+        modal.style.display = "none";
+    }, 500);
 }
 
 infoButton.addEventListener('click', showInstructions);

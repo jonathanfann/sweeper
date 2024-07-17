@@ -33,6 +33,13 @@ body {
   color: var(--text-color);
   transition: background-color 0.1s, color 0.1s;
 }
+
+ul {
+  padding-inline-start: 13px;
+  margin-block-start: 13px;
+  line-height: 1.5rem;
+}
+
 #game-container {
   display: flex;
   flex-direction: column;
@@ -225,16 +232,30 @@ input:checked + .slider .bxs-moon {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  transition: opacity 0.5s ease;
 }
 
 .modal-content {
   background-color: var(--bg-color);
   color: var(--text-color);
   margin: 15% auto;
-  padding: 20px;
-  border: 1px solid #888;
+  padding: 20px 30px;
+  border: 1px solid LightSlateGray;
   width: 80%;
   max-width: 500px;
+  transform: translateY(-20px);
+  transition: transform 0.5s ease;
+  border-radius: 5px;
+  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.6);
+}
+
+.modal.show {
+  opacity: 1;
+}
+
+.modal.show .modal-content {
+  transform: translateY(0);
 }
 
 .close {
