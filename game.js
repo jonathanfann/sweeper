@@ -110,8 +110,12 @@ function toggleFlag(cell) {
     if (!cell.classList.contains('revealed')) {
         cell.classList.toggle('flagged');
         if (cell.classList.contains('flagged')) {
-            cell.innerHTML = '<i class="bx bxs-flag-alt"></i>';
-            flaggedCount++;
+            if (flaggedCount < 10) {
+                cell.innerHTML = '<i class="bx bxs-flag-alt"></i>';
+                flaggedCount++;
+            } else {
+                alert('You already have 10 flags... and there are only 10 bombs...');
+            }
         } else {
             cell.innerHTML = '';
             flaggedCount--;
