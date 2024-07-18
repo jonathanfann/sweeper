@@ -2,8 +2,14 @@ const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-schem
 const game = document.getElementById('game');
 const newGameBtn = document.getElementById('new-game-btn');
 const messageDisplay = document.getElementById('message');
-const timerDisplay = document.getElementById('timer');
+const timerDisplay = document.getElementById('time-count');
+const bombCounter = document.getElementById('bomb-count');
 const darkModeToggle = document.getElementById('dark-mode-toggle');
+const infoButton = document.getElementById('info-button');
+const modal = document.getElementById('instructions-modal');
+const closeButton = modal.querySelector('.close');
+const deviceInstructions = document.getElementById('device-specific-instructions');
+
 const rows = 9;
 const cols = 9;
 const mines = 10;
@@ -15,6 +21,7 @@ let isLongPress = false;
 let touchStartTime;
 let gameTimer;
 let gameTime = 0;
+let flaggedCount = 0;
 
 function createBoard() {
     game.innerHTML = '';
@@ -23,16 +30,18 @@ function createBoard() {
     messageDisplay.textContent = '';
     newGameBtn.style.display = 'none';
     gameTime = 0;
+    flaggedCount = 0;
     updateTimer();
+    updateBombCounter();
     startTimer();
 
     for (let i = 0; i < rows * cols; i++) {
         const cell = document.createElement('div');
         cell.classList.add('cell');
         cell.dataset.index = i;
-        cell.addEventListener('touchstart', handleTouchStart);
-        cell.addEventListener('touchend', handleTouchEnd);
-        cell.addEventListener('touchmove', handleTouchMove);
+        cell.addEventListener('touchstart', handleTouchStart, { passive: false });
+        cell.addEventListener('touchend', handleTouchEnd, { passive: false });
+        cell.addEventListener('touchmove', handleTouchMove, { passive: false });
         cell.addEventListener('contextmenu', handleRightClick);
         cell.addEventListener('click', handleCellClick);
         game.appendChild(cell);
@@ -88,9 +97,12 @@ function toggleFlag(cell) {
         cell.classList.toggle('flagged');
         if (cell.classList.contains('flagged')) {
             cell.innerHTML = '<i class="bx bxs-flag-alt"></i>';
+            flaggedCount++;
         } else {
             cell.innerHTML = '';
+            flaggedCount--;
         }
+        updateBombCounter();
     }
 }
 
@@ -105,6 +117,8 @@ function handleCellClick(event) {
     if (cell.classList.contains('flagged')) {
         cell.classList.remove('flagged');
         cell.innerHTML = '';
+        flaggedCount--;
+        updateBombCounter();
     }
 
     if (minePositions.includes(index)) {
@@ -204,11 +218,37 @@ function stopTimer() {
 }
 
 function updateTimer() {
-    timerDisplay.textContent = `Time: ${gameTime}s`;
+    timerDisplay.textContent = gameTime;
+}
+
+function updateBombCounter() {
+    bombCounter.textContent = mines - flaggedCount;
 }
 
 function toggleDarkMode() {
     document.body.classList.toggle('dark-mode');
+}
+
+function showInstructions() {
+    modal.style.display = "block";
+    modal.offsetHeight; // Trigger reflow
+    modal.classList.add('show');
+    if (isMobileDevice()) {
+        deviceInstructions.textContent = "Long press on a cell to mark or unmark a flag.";
+    } else {
+        deviceInstructions.textContent = "Right-click on a cell to mark or unmark a flag.";
+    }
+}
+
+function closeInstructions() {
+    modal.classList.remove('show');
+    setTimeout(() => {
+        modal.style.display = "none";
+    }, 300);
+}
+
+function isMobileDevice() {
+    return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
 }
 
 newGameBtn.addEventListener('click', createBoard);
@@ -224,34 +264,6 @@ if (darkModeToggle) {
     console.error('Dark mode toggle not found in the DOM');
 }
 
-const infoButton = document.getElementById('info-button');
-const modal = document.getElementById('instructions-modal');
-const closeButton = modal.querySelector('.close');
-const deviceInstructions = document.getElementById('device-specific-instructions');
-
-function isMobileDevice() {
-    return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
-}
-
-function showInstructions() {
-    modal.style.display = "block";
-    // Trigger reflow
-    modal.offsetHeight;
-    modal.classList.add('show');
-    if (isMobileDevice()) {
-        deviceInstructions.textContent = "Long press ";
-    } else {
-        deviceInstructions.textContent = "Right-click";
-    }
-}
-
-function closeInstructions() {
-    modal.classList.remove('show');
-    setTimeout(() => {
-        modal.style.display = "none";
-    }, 500);
-}
-
 infoButton.addEventListener('click', showInstructions);
 closeButton.addEventListener('click', closeInstructions);
 window.addEventListener('click', (event) => {
@@ -260,4 +272,5 @@ window.addEventListener('click', (event) => {
     }
 });
 
+// Initialize the game
 createBoard();

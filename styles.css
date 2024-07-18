@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Tiny5&display=swap");
+
 :root {
   --bg-color: #d3d3d3;
   --text-color: #000;
@@ -7,7 +9,8 @@
   --action-color: DarkBlue;
   --action-hover: DodgerBlue;
   --action-hover-border: CornflowerBlue;
-  --slider-bg: lightslategray;
+  --slider-bg: SlateGray;
+  --timer-color: SlateGray;
 }
 
 .dark-mode {
@@ -19,10 +22,11 @@
   --action-color: SteelBlue;
   --action-hover: DeepSkyBlue;
   --action-hover-border: SkyBlue;
+  --timer-color: LightSlateGray;
 }
 
 body {
-  font-family: Arial, sans-serif;
+  font-family: "Tiny5", Arial, sans-serif;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -34,12 +38,6 @@ body {
   transition: background-color 0.1s, color 0.1s;
 }
 
-ul {
-  padding-inline-start: 13px;
-  margin-block-start: 13px;
-  line-height: 1.5rem;
-}
-
 #game-container {
   display: flex;
   flex-direction: column;
@@ -47,6 +45,7 @@ ul {
   width: 90vw;
   max-width: 400px;
 }
+
 #game {
   display: grid;
   grid-template-columns: repeat(9, 1fr);
@@ -54,12 +53,13 @@ ul {
   width: 100%;
   aspect-ratio: 1 / 1;
 }
+
 .cell {
   background-color: var(--cell-bg);
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 18px;
+  font-size: 26px;
   font-weight: bold;
   cursor: pointer;
   user-select: none;
@@ -68,33 +68,41 @@ ul {
   overflow: hidden;
   transition: background-color 0.3s;
 }
+
 .cell::after {
   content: "";
   display: block;
   padding-bottom: 100%;
 }
+
 .cell > * {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
 .revealed {
   background-color: var(--cell-revealed);
 }
+
 .mine {
   background-color: var(--mine-bg);
 }
+
 .flagged i,
 .mine i {
   font-size: 24px;
 }
+
 .flagged i {
   color: var(--text-color);
 }
+
 .mine i {
   color: var(--text-color);
 }
+
 #message-container {
   height: 50px;
   display: flex;
@@ -102,38 +110,47 @@ ul {
   justify-content: center;
   margin-top: 10px;
 }
+
 #message {
-  font-size: 18px;
+  font-size: 32px;
   font-weight: bold;
   margin-right: 10px;
 }
+
 #new-game-btn {
   margin: 0;
   padding: 0;
   border: 0;
   background: transparent;
   color: var(--action-color);
-  font-size: 18px;
+  font-size: 32px;
+  font-family: "Tiny5", Arial, sans-serif;
   cursor: pointer;
   display: none;
   text-decoration: underline;
   text-decoration-color: var(--action-color);
   transition: text-decoration-color 0.2s, color 0.4s;
 }
+
 #new-game-btn:hover {
   color: var(--action-hover);
   text-decoration-color: var(--action-hover-border);
 }
+
 #controls {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   width: 100%;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
-#timer {
-  font-size: 18px;
+
+#timer,
+#bomb-counter {
+  font-size: 28px;
   font-weight: bold;
 }
+
 .switch {
   position: relative;
   display: inline-block;
@@ -184,12 +201,12 @@ ul {
 
 .slider .bxs-sun {
   left: 7px;
-  color: var(--slider-bg);
+  color: lightslategray;
 }
 
 .slider .bxs-moon {
   right: 7px;
-  color: var(--slider-bg);
+  color: lightslategray;
   opacity: 0;
 }
 
@@ -233,21 +250,19 @@ input:checked + .slider .bxs-moon {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.4);
   opacity: 0;
-  transition: opacity 0.5s ease;
+  transition: opacity 0.3s ease;
 }
 
 .modal-content {
   background-color: var(--bg-color);
   color: var(--text-color);
   margin: 15% auto;
-  padding: 20px 30px;
-  border: 1px solid LightSlateGray;
+  padding: 20px;
+  border: 1px solid #888;
   width: 80%;
   max-width: 500px;
   transform: translateY(-20px);
-  transition: transform 0.5s ease;
-  border-radius: 5px;
-  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.6);
+  transition: transform 0.3s ease;
 }
 
 .modal.show {
@@ -266,9 +281,21 @@ input:checked + .slider .bxs-moon {
   cursor: pointer;
 }
 
+.bomb-and-time-count {
+  color: var(--timer-color);
+}
+
 .close:hover,
 .close:focus {
   color: var(--text-color);
   text-decoration: none;
   cursor: pointer;
+}
+
+.modal-content h2 {
+  font-size: 36px;
+}
+
+.modal-content ul {
+  font-size: 26px;
 }
