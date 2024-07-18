@@ -5,12 +5,13 @@
   --text-color: #000;
   --cell-bg: #bbb;
   --cell-revealed: #fff;
-  --mine-bg: #f00;
-  --action-color: DarkBlue;
-  --action-hover: DodgerBlue;
-  --action-hover-border: CornflowerBlue;
+  --mine-bg: rgb(233, 80, 80);
+  --action-color: DodgerBlue;
+  --action-hover: Salmon;
+  --action-hover-border: Salmon;
   --slider-bg: SlateGray;
   --timer-color: Salmon;
+  --flag-color: SlateGray;
 }
 
 .dark-mode {
@@ -23,6 +24,7 @@
   --action-hover: DeepSkyBlue;
   --action-hover-border: SkyBlue;
   --timer-color: GoldenRod;
+  --flag-color: GoldenRod;
 }
 
 body {
@@ -96,7 +98,7 @@ body {
 }
 
 .flagged i {
-  color: var(--timer-color);
+  color: var(--flag-color);
 }
 
 .mine i {
@@ -129,7 +131,7 @@ body {
   display: none;
   text-decoration: underline;
   text-decoration-color: var(--action-color);
-  transition: text-decoration-color 0.2s, color 0.4s;
+  transition: text-decoration-color 0.4s, color 0.4s;
 }
 
 #new-game-btn:hover {
