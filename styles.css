@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Tiny5&display=swap");
 
 :root {
-  --bg-color: #d3d3d3;
+  --bg-color: #e3e3e3;
   --text-color: #000;
   --cell-bg: #bbb;
   --cell-revealed: #fff;
@@ -10,7 +10,7 @@
   --action-hover: DodgerBlue;
   --action-hover-border: CornflowerBlue;
   --slider-bg: SlateGray;
-  --timer-color: SlateGray;
+  --timer-color: Salmon;
 }
 
 .dark-mode {
@@ -22,7 +22,7 @@
   --action-color: SteelBlue;
   --action-hover: DeepSkyBlue;
   --action-hover-border: SkyBlue;
-  --timer-color: LightSlateGray;
+  --timer-color: GoldenRod;
 }
 
 body {
