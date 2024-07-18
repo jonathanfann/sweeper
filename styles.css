@@ -96,7 +96,7 @@ body {
 }
 
 .flagged i {
-  color: var(--text-color);
+  color: var(--timer-color);
 }
 
 .mine i {
