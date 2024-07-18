@@ -16,7 +16,9 @@ const mines = 10;
 let minePositions = [];
 let cells = [];
 let longPressTimer;
-const longPressDuration = 500; // milliseconds
+const longPressDuration = 500; // ms
+let touchStartX, touchStartY;
+const moveThreshold = 10; // px
 let isLongPress = false;
 let touchStartTime;
 let gameTimer;
@@ -61,6 +63,9 @@ function placeMines() {
 
 function handleTouchStart(event) {
     event.preventDefault();
+    const touch = event.touches[0];
+    touchStartX = touch.clientX;
+    touchStartY = touch.clientY;
     const cell = event.target.closest('.cell');
     isLongPress = false;
     touchStartTime = new Date().getTime();
@@ -76,14 +81,23 @@ function handleTouchEnd(event) {
     const touchEndTime = new Date().getTime();
     const touchDuration = touchEndTime - touchStartTime;
     
-    if (touchDuration < longPressDuration && !isLongPress) {
+    if (touchDuration >= longPressDuration && !isLongPress) {
+        const cell = event.target.closest('.cell');
+        toggleFlag(cell);
+    } else if (touchDuration < longPressDuration && !isLongPress) {
         handleCellClick(event);
     }
 }
 
 function handleTouchMove(event) {
-    clearTimeout(longPressTimer);
-    isLongPress = false;
+    const touch = event.touches[0];
+    const moveX = Math.abs(touch.clientX - touchStartX);
+    const moveY = Math.abs(touch.clientY - touchStartY);
+    
+    if (moveX > moveThreshold || moveY > moveThreshold) {
+        clearTimeout(longPressTimer);
+        isLongPress = false;
+    }
 }
 
 function handleRightClick(event) {
