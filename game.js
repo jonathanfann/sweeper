@@ -211,6 +211,7 @@ function endGame(isWin) {
     stopTimer();
 
     if (isWin) {
+        bombCounter.textContent('0');
         messageDisplay.textContent = `Congratulations! Time: ${gameTime} `;
     } else {
         messageDisplay.textContent = 'Game over! ';
